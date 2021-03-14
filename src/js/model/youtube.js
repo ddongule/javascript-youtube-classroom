@@ -1,7 +1,6 @@
 import { api } from '../api/youtubeAPI.js';
 import { SEARCH } from '../constants/constant.js';
 
-
 class YoutubeModel {
   #searchedVideos;
   #nextPageToken;
@@ -16,13 +15,13 @@ class YoutubeModel {
     const json = await api.fetchVideoItems({ query, nextPageToken, max });
 
     this.#nextPageToken = json.nextPageToken;
-    this.#searchedVideos = json.items.map(item => {
+    this.#searchedVideos = json.map(item => {
       return {
-        url: item.id.videoId,
-        title: item.snippet.title,
-        channelId: item.snippet.channelId,
-        channelTitle: item.snippet.channelTitle,
-        publishTime: item.snippet.publishTime,
+        url: item.url,
+        title: item.title,
+        channelId: item.channelUrl,
+        channelTitle: item.channelTitle,
+        publishTime: item.publishTime,
       };
     });
   };
@@ -38,7 +37,6 @@ class YoutubeModel {
   get searchedCount() {
     return this.#searchedVideos.length;
   }
-
 }
 
 export default YoutubeModel;
